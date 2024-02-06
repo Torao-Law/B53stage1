@@ -1,0 +1,68 @@
+- Tag element yang akan di pakai ?
+- Block element dan inline element ?
+- semantic dan non semantic
+
+######################################################
+<html>
+  <head>
+    <title>Personal Web</title>
+  </head>
+
+  <body>    
+    <h1 style="background-color: blue;">Personal Web v1</h1>
+    <p style="color: red; background-color: black; font-size: large;">Personal Web v1</p>
+    
+
+    <span style='background-color: yellow;'>Halo</span>
+    <span style="background-color: red;">test</span>
+  </body>
+</html>
+
+border: 1px; border-color: black; border-style: solid;
+
+
+######################################################
+hierarky css -> prioritas css untuk styling.
+
+css => inline css (style="value css"), internal css <style></style>, eksternal css (name-file.css)
+urutan hierarky : internal css -> selector (id) -> selector (class) -> tag element
+
+
+#paragraph {
+  color: yellow;
+}
+
+.paragraph {
+  color: green;
+}
+
+p {
+  color: blue;
+}
+
+body {
+  background-color: red;
+}
+
+
+<p class="paragraph" id="paragraph" style="color: red">Ini adalah implementasi hierarky css</p>
+<p class="paragraph" id="paragraph">Ini adalah implementasi hierarky css</p>
+<p class="paragraph">Ini adalah implementasi hierarky css</p>
+<p class="target">Ini adalah implementasi hierarky css</p>
+<p class="paragraph" id="paragraph">Ini adalah implementasi hierarky css</p>
+<p class="paragraph" id="paragraphv2">Apakah kamu pernah menjual pulau ?</p>
+<p class="value">Apakah kamu pernah menjual pulau ?</p>
+
+# => selector id
+
+. => selector class
+
+
+ul => unorder list
+ol => order list
+li => list item
+
+
+layouting (flexbox)
+layouting -> tata letak
+flexbox -> sistem layouting

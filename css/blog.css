@@ -9,7 +9,6 @@ body {
   margin: 0;
 }
 
-/* Navbar */
 nav {
   background-color: #ebeaea;
   display: flex;
@@ -51,6 +50,9 @@ nav ul li .active {
 }
 
 /* Blog Form */
+.blog {
+  margin: 0 20px;
+}
 .blog-form {
   padding: 50px 0;
   display: flex;
@@ -100,6 +102,7 @@ select {
   border: 1px solid #c4c4c4;
   border-radius: 8px;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .blog-form form .input-blog-image-group label p {

@@ -248,3 +248,34 @@ select {
   line-height: 140%;
   text-align: justify;
 }
+
+/* hamburger */
+.hamburger-bars {
+  display: none;
+}
+
+.hamburger-bars-items {
+  display: none;
+}
+
+.hamburger-bars-items a {
+  display: flex;
+  background-color: antiquewhite;
+  color: #000000;
+  justify-content: center;
+  align-items: center;
+}
+
+.hamburger-bars-items a.active {
+  background-color: rgb(192, 132, 53);
+}
+
+@media screen and (max-width: 550px) {
+  .collapse-item {
+    display: none;
+  }
+
+  .hamburger-bars {
+    display: block;
+  }
+}

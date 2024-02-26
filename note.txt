@@ -269,3 +269,14 @@ function membership(name, age) {
 
 
 console.log(membership("Dandi saputra", 9))
+
+==================================================================================
+- Inheritance, pewarisan
+- Polymorphism, satu method yang sama tpi berbeda berdasarkan
+- class, blueprint / centakan
+- object, instansi dari sebuah kelas
+- encaptulation, membatasi akses dari luar
+- abstraction, menyembunyikan sebuah object
+- getter ( get() ) dan setter ( set() )
+
+const data  =  {} object data type 

@@ -280,3 +280,9 @@ console.log(membership("Dandi saputra", 9))
 - getter ( get() ) dan setter ( set() )
 
 const data  =  {} object data type 
+
+
+==================================================================================
+callback : fungsi sebagai parameter, function yang di sertakan sebagai argument untuk fungsi lain
+
+HOF : Fungsi yang mengambil satu / beberapa sebagai argument, fungsi yang beroperasi pada fungsi lain bisa digunakan sembagai argument / return value

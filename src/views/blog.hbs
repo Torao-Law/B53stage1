@@ -59,36 +59,41 @@
         <a href="add-blog" class="btn btn-primary">Add New Blog</a>
       </div>
       <div id="contents">
-        <div class="card mb-3 w-100">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img
-                src="/assets/image/blog-img.png"
-                class="img-fluid rounded-start"
-                alt="..."
-              />
-            </div>
-            <div class="col-md-6">
-              <div class="card-body">
-                <h5 class="card-title">
-                  <a href="/blog-detail/{{this.id}}" target="_blank">Hello World</a>
-                </h5>
-                <p>
-                  12 Juli 2021 22:30 WIB | Ichsan Emrald Alamsyah
-                </p>
-                <p class="card-text">problem in the world</p>
-                <p class="card-text"><small class="text-body-secondary">1
-                    seconds ago
-                  </small></p>
+        {{#each data}}
+          <div class="card mb-3 w-100">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img
+                  src="/assets/image/blog-img.png"
+                  class="img-fluid rounded-start"
+                  alt="..."
+                />
+              </div>
+              <div class="col-md-6">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <a
+                      href="/blog-detail/{{@index}}"
+                      target="_blank"
+                    >{{this.title}}</a>
+                  </h5>
+                  <p>
+                    12 Juli 2021 22:30 WIB | Ichsan Emrald Alamsyah
+                  </p>
+                  <p class="card-text">{{this.content}}</p>
+                  <p class="card-text"><small class="text-body-secondary">1
+                      seconds ago
+                    </small></p>
+                </div>
+              </div>
+              <div class="col-md-2 d-flex" style="height: fit-content;">
+                <button class="btn btn-secondary">Edit post</button>
+                <a class="btn btn-primary" href="/delete-blog/{{@index}}">Delete
+                  post</a>
               </div>
             </div>
-            <div class="col-md-2 d-flex" style="height: fit-content;">
-              <button class="btn btn-secondary">Edit post</button>
-              <button class="btn btn-primary">Delete post</button>
-            </div>
           </div>
-        </div>
-
+        {{/each}}
       </div>
     </div>
 

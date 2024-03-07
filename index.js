@@ -1,6 +1,13 @@
 import express from "express";
+// import sequelize here
+import { Sequelize, QueryTypes } from "sequelize";
+import connection from "./src/config/connection.js";
+
 const app = express();
 const port = 3000;
+
+// create instance sequelize connection
+const sequelizeConfig = new Sequelize(connection.development)
 
 app.set("view engine", "hbs");
 app.set("views", "src/views");
@@ -43,18 +50,49 @@ function home(req, res) {
   res.render("index");
 }
 
-function blog(req, res) {
-  res.render("blog", { data: datas });
+async function blog(req, res) {
+  try {
+    const QueryName = "SELECT * FROM blogs ORDER BY id DESC"
+
+    const blog = await sequelizeConfig.query(QueryName, { type: QueryTypes.SELECT })
+    
+    const obj = blog.map((data) => {
+      return {
+        ...data,
+        author: "Putri Maharani Chan"
+      }
+    })
+
+    res.render("blog", { data: obj });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function contact(req, res) {
   res.render("contact");
 }
 
-function blogDetail(req, res) {
-  const id = req.params.id;
+async function blogDetail(req, res) {
+  try {
+    const id = req.params.id;
+    const QueryName = `SELECT * FROM blogs WHERE id=${id}`
 
-  res.render("blog-detail", { id });
+    const blog = await sequelizeConfig.query(QueryName, { type: QueryTypes.SELECT })
+    
+    const obj = blog.map((data) => {
+      return {
+        ...data,
+        author: "Putri Maharani Chan"
+      }
+    })
+    console.log(obj);
+
+
+    res.render("blog-detail", { data: obj[0] });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function addBlog(req, res) {
@@ -65,23 +103,33 @@ function testimonial(req, res) {
   res.render("testimonial");
 }
 
-function handleAddBlog(req, res) {
-  // const titleData = req.body.title;
-  // const content = req.body.content;
-
-  const { title, content } = req.body;
-
-  datas.push({ title, content });
-
-  res.redirect("/blog");
+async function handleAddBlog(req, res) {
+  try {
+    const { title, content } = req.body;
+    const image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQ61yrH-uBgiaXUvYiH8A2tMofDJrhHtdBJQ&usqp=CAU"
+  
+    const QueryName = `INSERT INTO blogs(title, image, content, "createdAt", "updatedAt")
+      VALUES ('${title}', '${image}', '${content}', NOW(), NOW())`;
+  
+    await sequelizeConfig.query(QueryName)
+  
+    res.redirect("/blog");
+  } catch (error) {
+    console.log(error)
+  }
 }
 
-function handleDeleteBlog(req, res) {
-  const { id } = req.params;
+async function handleDeleteBlog(req, res) {
+  try {
+    const { id } = req.params;
+    const QueryName = `DELETE FROM blogs WHERE id = ${id}`;
 
-  datas.splice(id, 1);
+    await sequelizeConfig.query(QueryName)
 
-  res.redirect("/blog");
+    res.redirect("/blog");
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 app.listen(port, () => {

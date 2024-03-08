@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "personal website",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,7 +10,10 @@
   "author": "ilham",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.18.3",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.18.0",
     "hbs": "^4.2.0",
     "path": "^0.12.7",
     "pg": "^8.11.3",

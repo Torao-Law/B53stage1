@@ -15,7 +15,6 @@
       crossorigin="anonymous"
     />
   </head>
-
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container">
@@ -39,10 +38,10 @@
               <a class="nav-link" aria-current="page" href="/">Home</a>
             </li>
             <li class="nav-item ms-3">
-              <a
-                class="nav-link fw-semibold active text-danger"
-                href="/blog"
-              >Blog</a>
+              <a class="nav-link" href="/blog">Add Blog</a>
+            </li>
+            <li class="nav-item ms-3">
+              <a class="nav-link" href="/testimonial">Testimonials</a>
             </li>
           </ul>
 
@@ -52,9 +51,13 @@
                 <a class="nav-link" href="#">Register</a>
               </li>
               <li class="nav-item ms-3">
-                <a class="nav-link" href="#">Login</a>
+                <a
+                  class="nav-link text-danger active fw-semibold"
+                  href="#"
+                >Login</a>
               </li>
             </ul>
+
             <a class="btn btn-danger btn-submit ms-5" href="/contact-me">Contact
               Me</a>
           </div>
@@ -62,17 +65,39 @@
       </div>
     </nav>
 
-    <div class="container my-5">
-      <div class="blog-detail-container">
-        <h1>{{data.title}}</h1>
-        <div class="author">{{data.createdAt}} | {{data.author}}</div>
-        <div class="my-3">
-          <img class="w-100" src={{this.image}} alt="detail" />
-        </div>
+    {{#if messages.danger}}
+    <div class="alert alert-danger" role="alert">
+      <div class="container">
+        {{messages.danger}}
+      </div>
+    </div>
+    {{/if}}
 
-        <p>
-          {{data.content}}
-        </p>
+    <div class="container d-flex justify-content-center">
+      <div class="w-50">
+        <h3 class="text-center mt-5">LOGIN</h3>
+        <form action="/login" method="post">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              name="email"
+              class="form-control"
+              id="email"
+              aria-describedby="emailHelp"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              name="password"
+              id="password"
+            />
+          </div>
+          <button type="submit" class="btn btn-danger mt-3 px-5">Submit</button>
+        </form>
       </div>
     </div>
   </body>

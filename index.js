@@ -5,16 +5,29 @@ const connection = require("./src/config/connection.json");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const flash = require("express-flash");
-// import session = require('express-session';
-// import flash = require('express-flash';
+const multer = require("multer")
 
 const app = express();
 const port = 3000;
-
-// create instance sequelize connection
 const sequelizeConfig = new Sequelize(connection.development);
-app.use(flash());
+const multerConfig = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'src/uploads')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.fieldname + '-' + uniqueSuffix + '.png')
+  }
+})
+const upload = multer({ storage: multerConfig })
 
+app.set("view engine", "hbs");
+app.set("views", "src/views");
+
+app.use("/assets", express.static("src/assets"));
+app.use("/uploads", express.static("src/uploads"));
+app.use(express.urlencoded({ extended: false }));
+app.use(flash());
 app.use(
   session({
     cookie: {
@@ -29,29 +42,21 @@ app.use(
   })
 );
 
-app.set("view engine", "hbs");
-app.set("views", "src/views");
-
-// serving static file such as css, js, image, etc
-app.use("/assets", express.static("src/assets"));
-// body parser for accept req.body
-app.use(express.urlencoded({ extended: false }));
-
 app.get("/", home);
 app.get("/blog", blog);
 app.get("/blog/:id", blogDetail);
 app.get("/add-blog", addBlog);
-app.post("/add-blog", handleAddBlog);
 app.get("/delete-blog/:id", handleDeleteBlog);
 app.get("/contact-me", contact);
 app.get("/testimonial", testimonial);
 app.get("/register", formRegister);
-app.post("/register", register);
 app.get("/login", formLogin);
+
+app.post("/add-blog", upload.single("image"), handleAddBlog);
+app.post("/register", register);
 app.post("/login", login);
 
 function home(req, res) {
-  
   res.render("index", {
     isLogin: req.session.isLogin,
     user: req.session.user,
@@ -60,7 +65,7 @@ function home(req, res) {
 
 async function blog(req, res) {
   try {
-    const QueryName = "SELECT * FROM blogs ORDER BY id DESC";
+    const QueryName = `SELECT b.id, b.title, b.image, b.content, b."updatedAt", u.name AS author FROM blogs b LEFT JOIN "users" u ON b.author = u.id ORDER BY id DESC`;
 
     const blog = await sequelizeConfig.query(QueryName, {
       type: QueryTypes.SELECT,
@@ -69,9 +74,9 @@ async function blog(req, res) {
     const obj = blog.map((data) => {
       return {
         ...data,
-        author: "Putri Maharani Chan",
-      };
-    });
+        isLogin: req.session.isLogin
+      }
+    })
 
     res.render("blog", { data: obj });
   } catch (error) {
@@ -118,11 +123,11 @@ function testimonial(req, res) {
 async function handleAddBlog(req, res) {
   try {
     const { title, content } = req.body;
-    const image =
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQ61yrH-uBgiaXUvYiH8A2tMofDJrhHtdBJQ&usqp=CAU";
+    const author = req.session.idUser;
+    const image = req.file.filename;
 
-    const QueryName = `INSERT INTO blogs(title, image, content, "createdAt", "updatedAt")
-      VALUES ('${title}', '${image}', '${content}', NOW(), NOW())`;
+    const QueryName = `INSERT INTO blogs(title, image, content, author, "createdAt", "updatedAt")
+      VALUES ('${title}', '${image}', '${content}', '${author}', NOW(), NOW())`;
 
     await sequelizeConfig.query(QueryName);
 
@@ -161,7 +166,8 @@ async function register(req, res) {
           `INSERT INTO users(name, email, password, "createdAt", "updatedAt") VALUES ('${name}', '${email}', '${dataHash}', NOW(), NOW())`
         );
 
-        res.redirect("/");
+        req.flash("succes", "Register succesfuly");
+        res.redirect("/login");
       }
     });
   } catch (error) {
@@ -197,6 +203,7 @@ async function login(req, res) {
         } else {
           req.session.isLogin = true;
           req.session.user = isCheckEmail[0].name;
+          req.session.idUser = isCheckEmail[0].id;
           req.flash("succes", "login succes");
 
           return res.redirect("/");

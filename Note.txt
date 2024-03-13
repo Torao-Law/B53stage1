@@ -45,3 +45,73 @@ ORM (Object Relational Mapping), Teknik penyelarasan antara aplikasi dan databas
 
 - SESSION => LOGOUT, CLOSE BROWSER
 - COOKIES => MaxAge = 3, > 3H => CANT ACCESS RESOUCE
+
+
+===================================== TABLE RELATION =============================================
+- DEFINTION, TYPE RELATION
+=> DEFINTION, PENDEFINISAN TABLE BERADASARKAN PRIMARY KEY CONTOH ID DI TABLE USER.
+=> ONE TO ONE 1:1. ONE TO MANY 1:N, MANY TO MANY N:N
+=> 1:1 => USER <=> PROFILE
+=> 1:N => USER <=> BLOGS
+=> N:N => USER <=> PRODUCT
+
+- PRIMARY KEY, FOREIGN KEY
+=> PRIMARY KEY, NOMOR INDUK YANG AKAN DIKAITKAN DENGAN TABLE LAIN
+=> FOREING KEY, KUMPULAN BIDANG DALAM 1 TABLE YANG MENGACU PADA PK TABLE LAIN
+
+- SQL JOIN
+=> INNER JOIN, OUTER JON, LEFT JOIN, RIGHT JOIN
+=> SELECT
+
+
+=> USER (ID (PK), NAME, PASSWORD)
+=> BLOGS (ID (PK), TITLE, CONTENT, AUTHOR (FK), CATEGORY_ID (FK))
+=> CATEGORY (ID (PK), NAME)
+
+
+INSERT INTO public.blogs(title, content, user_id)
+VALUES ('Makan gratis', 'Bersama xxxx kita mukbang', 1);
+	
+INSERT INTO public.blogs(title, content, user_id)
+VALUES ('Data biznet bocor', 'Infonya karyawan biznet yang mengancam', 2);
+
+INSERT INTO public.blogs(title, content, user_id)
+VALUES ('Pilot ketiduran', 'Pentingnya cuti untuk suami ketika istri melahirkan', 3);
+
+INSERT INTO public.blogs(title, content, user_id)
+VALUES ('Berkah Ramadhan', 'Siap mencari ingfo buka bersama di masjid', 4);
+
+INSERT INTO public.blogs(title, content, user_id)
+VALUES ('Idul fitri', 'Siap siap dapat THR', 4);
+
+INSERT INTO public.blogs(title, content)
+VALUES ('Obat pusing', 'Bang ada seratus ?');
+
+SELECT * FROM blogs;
+
+SELECT * FROM blogs INNER JOIN "user" ON blogs.user_id = "user".id 
+
+SELECT b.id, b.title, b.content, u.name AS author
+FROM blogs b 
+INNER JOIN "user" u 
+ON b.user_id = u.id
+
+
+SELECT b.id, b.title, b.content, u.name AS author
+FROM blogs b 
+LEFT JOIN "user" u 
+ON b.user_id = u.id
+
+SELECT b.id, b.title, b.content, u.name AS author
+FROM blogs b 
+RIGHT JOIN "user" u 
+ON b.user_id = u.id
+
+SELECT b.id, b.title, b.content, u.name AS author
+FROM blogs b 
+FULL JOIN "user" u 
+ON b.user_id = u.id
+
+
+select * from blogs
+select * from "user"

@@ -78,6 +78,14 @@
       </div>
     </nav>
 
+    {{#if messages.succes}}
+    <div class="alert alert-success" role="alert">
+      <div class="container">
+        {{messages.succes}}
+      </div>
+    </div>
+    {{/if}}
+
     <div class="container d-flex mt-5">
       <div class="card p-3" style="max-width: 22rem; flex: 40%;">
         <img
